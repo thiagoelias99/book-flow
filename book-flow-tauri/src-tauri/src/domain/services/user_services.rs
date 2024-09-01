@@ -1,18 +1,19 @@
-pub struct UserServices<T: UserRepository> {
-    user_repository: T,
+use crate::{
+    domain::entities::user::User, infrastructure::repositories::user_repository::UserRepository,
+};
+
+pub struct UserServices {
+    user_repository: UserRepository,
 }
 
-impl<T: UserRepository> UserServices<T> {
-    pub fn new(user_repository: T) -> Self {
-        UserServices { user_repository }
-    }
-
-    pub fn register_user(&self, user: UserCreateDto) -> Result<User, diesel::result::Error> {
-        self.user_repository.save(&user).await?;
-        Ok(())
+impl UserServices {
+    pub fn new(user_repository: UserRepository) -> Self {
+        UserServices {
+            user_repository: user_repository,
+        }
     }
 
     pub fn find_user_by_user_name(&self, user_name: &str) -> Option<User> {
-        self.user_repository.find_by_user_name(user_name).await
+        self.user_repository.find_by_user_name(user_name)
     }
 }
