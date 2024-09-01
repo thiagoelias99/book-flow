@@ -1,0 +1,5 @@
+
+book-flow-tauri/.env
+book-flow-tauri/prisma/dev.db
+book-flow-tauri/src-tauri/.env
+book-flow-tauri/src-tauri/test.db
