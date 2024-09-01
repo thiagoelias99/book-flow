@@ -18,6 +18,7 @@ fn greet(name: &str) -> String {
 
 #[tauri::command]
 fn get_user_by_user_name(user_name: &str) -> String {
+    println!("User name: {}", user_name);
     // Must always receive and return a string
 
     // Create dependencies
