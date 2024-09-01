@@ -19,6 +19,7 @@ diesel_migrations = "2.2.0"
 async-trait = "0.1.81"
 dotenvy = "0.15"
 libsqlite3-sys = { version = "0.28.0", features = ["bundled"] }
+uuid = { version = "1.1", features = ["v4"] }
 
 [features]
 # This feature is used for production builds or when a dev server is not specified, DO NOT REMOVE!!

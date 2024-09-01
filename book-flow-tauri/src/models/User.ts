@@ -33,7 +33,7 @@ export class User {
 export const userCreateDtoSchema = z.object({
   name: z.string().min(3),
   userName: z.string().min(3),
-  userLevel: z.string().min(3),
+  level: z.string().min(3),
   password: z.string().min(6).max(20),
 })
 

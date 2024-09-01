@@ -1,7 +1,7 @@
-use diesel::{Queryable, Selectable};
+use diesel::{prelude::Insertable, Queryable, Selectable};
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize, Queryable, Selectable)]
+#[derive(Debug, Clone, Serialize, Deserialize, Queryable, Selectable, Insertable)]
 #[diesel(table_name = crate::schema::users)] // Set the table name
 #[diesel(check_for_backend(diesel::sqlite::Sqlite))]
 pub struct User {

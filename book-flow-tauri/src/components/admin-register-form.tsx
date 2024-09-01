@@ -22,9 +22,10 @@ import { useForm } from "react-hook-form"
 import { PasswordInput } from "./ui/password-input"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
+import { invoke } from "@tauri-apps/api"
 
 
-export default function AdminRegisterForm() {
+export default function AdminRegisterForm({ setAdminIsRegistered }: { setAdminIsRegistered: (value: boolean) => void }) {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
 
@@ -35,26 +36,22 @@ export default function AdminRegisterForm() {
     defaultValues: {
       name: "admin",
       userName: "admin",
-      userLevel: "admin",
+      level: "admin",
       password: "",
     },
   })
 
-  function onSubmit(values: z.infer<formSchema>) {
+  async function onSubmit(values: z.infer<formSchema>) {
     setIsSubmitting(true)
     try {
-      // Create a 2 seg delay to simulate a request
-      setTimeout(() => {
-        console.log(values)
-        setIsSubmitting(false)
-      }, 2000)
-
+      console.log(values)
+      await invoke("register_user", { userRegisterDto: values })
       form.reset()
-
       toast({
         title: "Administrador registrado",
         description: "O usuário administrador foi registrado com sucesso",
       })
+      setAdminIsRegistered(true)
     } catch (error) {
       console.error(error)
       toast({

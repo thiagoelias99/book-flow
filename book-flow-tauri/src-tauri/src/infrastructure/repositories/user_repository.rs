@@ -18,4 +18,16 @@ impl UserRepository {
             .optional()
             .expect("Error loading user")
     }
+
+    pub fn save(&self, user: User) -> Result<User, String> {
+        let connection = &mut establish_connection();
+
+        let new_user = diesel::insert_into(crate::schema::users::table)
+            .values(&user)
+            .returning(crate::schema::users::dsl::users::all_columns())
+            .get_result(connection)
+            .expect("Error saving user");
+
+        Ok(new_user)
+    }
 }
