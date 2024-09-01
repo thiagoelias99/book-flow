@@ -7,7 +7,7 @@ pub mod infrastructure;
 pub mod schema;
 
 use application::use_cases;
-use domain::services;
+use domain::{entities::user::User, services};
 use infrastructure::repositories::user_repository;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -17,17 +17,19 @@ fn greet(name: &str) -> String {
 }
 
 #[tauri::command]
-fn get_user_by_user_name(user_name: &str) -> String {
-    println!("User name: {}", user_name);
-    // Must always receive and return a string
-
+fn get_user_by_user_name(user_name: &str) -> Option<User> {
     // Create dependencies
     let user_repository = user_repository::UserRepository::new();
     let user_services = services::user_services::UserServices::new(user_repository);
 
     // Call use case
-    let user = use_cases::get_user::get_user_by_user_name(user_name, &user_services);
-    serde_json::to_string(&user).unwrap()
+    use_cases::get_user::get_user_by_user_name(user_name, &user_services)
+
+    // Return user
+    // match user {
+    //     Some(data) => data,
+    //     None => {}        
+    // }
 }
 
 fn main() {
