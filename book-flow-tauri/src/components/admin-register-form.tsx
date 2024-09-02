@@ -44,7 +44,6 @@ export default function AdminRegisterForm({ setAdminIsRegistered }: { setAdminIs
   async function onSubmit(values: z.infer<formSchema>) {
     setIsSubmitting(true)
     try {
-      console.log(values)
       await invoke("register_user", { userRegisterDto: values })
       form.reset()
       toast({

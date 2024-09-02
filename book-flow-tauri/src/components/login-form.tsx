@@ -17,6 +17,8 @@ import { useToast } from "@/hooks/use-toast"
 import { useState } from "react"
 import { invoke } from "@tauri-apps/api"
 import { useNavigate } from "react-router-dom"
+import { useLocalStorage } from "@/hooks/use-local-storage"
+import { User, UserInvokeResponse } from "@/models/User"
 
 const formSchema = z.object({
   userName: z.string().min(3),
@@ -27,6 +29,7 @@ export default function LoginForm() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
   const navigate = useNavigate()
+  const { setValue } = useLocalStorage<User | null>("current_user", null)
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -39,12 +42,13 @@ export default function LoginForm() {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsSubmitting(true)
     try {
-      await invoke("login", { data: values })
+      const user = User.fromInvoke(await invoke<UserInvokeResponse>("login", { data: values }))
       form.reset()
       toast({
         title: "Login successful",
         description: "You have successfully logged in",
       })
+      setValue(user)
       navigate("/logged-area")
     } catch (error) {
       console.error(error)
