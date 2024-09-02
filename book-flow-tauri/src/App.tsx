@@ -18,10 +18,10 @@ function App() {
   }, [adminIsRegistered])
 
   return (
-    <main className='w-screen h-screen flex flex-col justify-center items-center'>
+    <main className='w-full h-full flex flex-col justify-center items-center'>
       {adminIsRegistered ? (
-        <div className='w-screen h-screen flex flex-col justify-center items-center'>
-          <h1>Olá</h1>
+        <div className='w-full h-full flex flex-col justify-center items-center'>
+          <h1 className='text-4xl font-bold'>Welcome to Book Flow</h1>
         </div>) : (
         <AdminRegisterForm setAdminIsRegistered={setAdminIsRegistered} />
       )}

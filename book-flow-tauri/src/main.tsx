@@ -1,12 +1,12 @@
 import React from "react"
 import ReactDOM from "react-dom/client"
-import App from "./App"
 import { Toaster } from "./components/ui/toaster"
+import Router from "./router"
 
 ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
   <React.StrictMode>
-    <div>
-      <App />
+    <div className='w-screen h-screen'>
+      <Router />
       <Toaster />
     </div>
   </React.StrictMode>,
