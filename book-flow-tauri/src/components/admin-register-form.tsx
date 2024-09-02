@@ -15,7 +15,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { z } from "@/lib/pt-zod"
 import { userCreateDtoSchema } from "@/models/User"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -23,6 +22,7 @@ import { PasswordInput } from "./ui/password-input"
 import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
 import { invoke } from "@tauri-apps/api"
+import { z } from "zod"
 
 
 export default function AdminRegisterForm({ setAdminIsRegistered }: { setAdminIsRegistered: (value: boolean) => void }) {

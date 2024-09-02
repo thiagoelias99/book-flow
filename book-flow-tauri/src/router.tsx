@@ -2,6 +2,8 @@ import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
 import App from "./App"
 import Header from "./components/header"
 import Footer from "./components/footer"
+import LoginPage from "./pages/login"
+import LoggedArea from "./pages/logged-area"
 
 export default function Router() {
   return (
@@ -14,7 +16,8 @@ export default function Router() {
             <Footer />
           </div>}>
           <Route index element={<App />} />
-          <Route path="login" element={<div>Login</div>} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="logged-area" element={<LoggedArea />} />
           <Route path="*" element={<div>Pagina Não Encontrada</div>} />
         </Route>
       </Routes>

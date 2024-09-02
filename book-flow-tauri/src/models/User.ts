@@ -1,4 +1,4 @@
-import { z } from "@/lib/pt-zod"
+import { z } from "zod"
 
 export type UserInvokeResponse = {
   id: string,

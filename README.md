@@ -4,7 +4,15 @@
 # ToDo
 - [X] - Vite setup
   - [X] - Styling libs
-- [ ] - Rust setup
-  - [ ] - Diesel setup
-- [ ] - Register user
-- [ ] - Register books
+  - [X] - Router
+  - [ ] - Context
+- [X] - Rust setup
+  - [X] - DDD
+  - [X] - Diesel setup
+- [X] - Register Admin
+- [ ] - Login
+  - [ ] - Form
+  - [ ] - Use case
+- [ ] - Management Area Layout
+- [ ] - Manage user
+- [ ] - Manage books
