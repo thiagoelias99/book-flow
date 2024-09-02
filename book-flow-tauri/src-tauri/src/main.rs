@@ -12,19 +12,20 @@ use domain::{entities::user::User, services};
 use infrastructure::repositories::user_repository;
 use presentation::dto::{login::LoginDto, user_register_dto::UserRegisterDto};
 
-// Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
-fn greet(name: &str) -> String {
-    format!("Hello, {}! You've been greeted from Rust!", name)
-}
-
-#[tauri::command]
-fn get_user_by_user_name(user_name: &str) -> Option<User> {
+fn get_all_users() -> Result<Vec<User>, String> {
     // Create dependencies
     let user_repository = user_repository::UserRepository::new();
     let user_services = services::user_services::UserServices::new(user_repository);
 
     // Call use case
+    use_cases::get_user::get_all(&user_services)
+}
+
+#[tauri::command]
+fn get_user_by_user_name(user_name: &str) -> Option<User> {
+    let user_repository = user_repository::UserRepository::new();
+    let user_services = services::user_services::UserServices::new(user_repository);
     use_cases::get_user::get_user_by_user_name(user_name, &user_services)
 }
 
@@ -45,7 +46,7 @@ fn login(data: LoginDto) -> Result<User, String> {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
-            greet,
+            get_all_users,
             get_user_by_user_name,
             register_user,
             login

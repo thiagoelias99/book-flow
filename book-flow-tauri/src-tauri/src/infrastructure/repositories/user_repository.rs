@@ -9,6 +9,16 @@ impl UserRepository {
         UserRepository {}
     }
 
+    pub fn find_all(&self) -> Result<Vec<User>, String> {
+        let connection = &mut establish_connection();
+
+        let users = crate::schema::users::table
+            .load::<User>(connection)
+            .expect("Error loading users");
+
+        Ok(users)
+    }
+
     pub fn find_by_user_name(&self, user_name: &str) -> Option<User> {
         let connection = &mut establish_connection();
 

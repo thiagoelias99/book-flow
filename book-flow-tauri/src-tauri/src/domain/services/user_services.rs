@@ -14,6 +14,10 @@ impl UserServices {
         }
     }
 
+    pub fn get_all(&self) -> Result<Vec<User>, String> {
+        self.user_repository.find_all()
+    }
+
     pub fn find_user_by_user_name(&self, user_name: &str) -> Option<User> {
         self.user_repository.find_by_user_name(user_name)
     }

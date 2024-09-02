@@ -8,6 +8,9 @@ import {
   TableRow,
 } from "@/components/ui/table"
 import { cn } from "@/lib/utils"
+import { User, UserInvokeResponse } from "@/models/User"
+import { invoke } from "@tauri-apps/api"
+import { useEffect, useState } from "react"
 import { ClassNameValue } from "tailwind-merge"
 
 interface Props {
@@ -15,6 +18,28 @@ interface Props {
 }
 
 export default function UsersTable({ className }: Props) {
+  const [isLoading, setIsLoading] = useState(true)
+  const [users, setUsers] = useState<User[]>([])
+
+  useEffect(() => {
+    async function getUsers() {
+      const response = await invoke<[UserInvokeResponse]>("get_all_users")
+
+      const users = response.map(User.fromInvoke).filter(Boolean).filter(user => user?.name !== "admin") as User[]
+
+      setUsers(users)
+    }
+
+    try {
+      setIsLoading(true)
+      getUsers()
+    } catch (error) {
+      console.error(error)
+    } finally {
+      setIsLoading(false)
+    }
+  }, [])
+
   return (
     <Table className={cn("bg-card rounded-lg", className)}>
       <TableCaption>A list of registered users</TableCaption>
@@ -25,14 +50,29 @@ export default function UsersTable({ className }: Props) {
           <TableHead>Role</TableHead>
         </TableRow>
       </TableHeader>
-      <TableBody>
-        <TableRow>
-          <TableCell>Thiago Elias</TableCell>
-          <TableCell>telias</TableCell>
-          <TableCell>admin</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-
+      {isLoading ? (
+        <TableBody>
+          <TableRow>
+            <TableCell colSpan={3} className='text-center'>Loading...</TableCell>
+          </TableRow>
+        </TableBody>
+      ) : (
+        <TableBody>
+          {users.length === 0 && (
+            <TableRow>
+              <TableCell colSpan={3} className='text-center'>No users found</TableCell>
+            </TableRow>
+          )}
+          {users.map((user) => (
+            <TableRow key={user.id}>
+              <TableCell>{user.name}</TableCell>
+              <TableCell>{user.userName}</TableCell>
+              <TableCell>{user.level}</TableCell>
+            </TableRow>
+          ))}
+        </TableBody>
+      )
+      }
+    </Table >
   )
 }

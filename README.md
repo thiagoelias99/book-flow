@@ -16,7 +16,7 @@
 - [X] - Management Area Layout
 - [ ] - Manage user
   - [X] - Area Layout
-  - [ ] - Get data
+  - [X] - Get data
   - [ ] - Register user
     - [ ] - Form
     - [ ] - Use case
