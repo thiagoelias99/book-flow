@@ -17,7 +17,10 @@ export default function Router() {
           </div>}>
           <Route index element={<App />} />
           <Route path="login" element={<LoginPage />} />
-          <Route path="logged-area" element={<LoggedArea />} />
+          <Route path="logged-area" element={<LoggedArea />}>
+            <Route path="users" element={<div>Users</div>} />
+            <Route path="books" element={<div>Books</div>} />
+          </Route>
           <Route path="*" element={<div>Pagina Não Encontrada</div>} />
         </Route>
       </Routes>
