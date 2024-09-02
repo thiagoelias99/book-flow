@@ -14,10 +14,12 @@ import { useEffect, useState } from "react"
 import { ClassNameValue } from "tailwind-merge"
 
 interface Props {
+  userIsRegistered: boolean
+  setUserIsRegistered: (value: boolean) => void
   className?: ClassNameValue
 }
 
-export default function UsersTable({ className }: Props) {
+export default function UsersTable({ className, userIsRegistered, setUserIsRegistered }: Props) {
   const [isLoading, setIsLoading] = useState(true)
   const [users, setUsers] = useState<User[]>([])
 
@@ -30,6 +32,10 @@ export default function UsersTable({ className }: Props) {
       setUsers(users)
     }
 
+    if (userIsRegistered) {
+      setUserIsRegistered(false)
+    }
+
     try {
       setIsLoading(true)
       getUsers()
@@ -38,7 +44,7 @@ export default function UsersTable({ className }: Props) {
     } finally {
       setIsLoading(false)
     }
-  }, [])
+  }, [userIsRegistered])
 
   return (
     <Table className={cn("bg-card rounded-lg", className)}>

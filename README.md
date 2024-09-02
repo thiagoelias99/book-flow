@@ -17,7 +17,8 @@
 - [ ] - Manage user
   - [X] - Area Layout
   - [X] - Get data
-  - [ ] - Register user
-    - [ ] - Form
-    - [ ] - Use case
+  - [X] - Register user
+    - [X] - Form
+    - [X] - Use case
+  - [ ] - Update user role
 - [ ] - Manage books

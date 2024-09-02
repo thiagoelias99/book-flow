@@ -8,10 +8,11 @@ import { cn } from "@/lib/utils"
 interface Props {
   header: string
   buttonLabel: string
+  buttonHandler?: () => void
   className?: ClassNameValue
 }
 
-export default function AdminAreaSectionHeader({ header, buttonLabel, className }: Props) {
+export default function AdminAreaSectionHeader({ header, buttonLabel, className, buttonHandler }: Props) {
   return (
     <div className={cn("w-full flex flex-row justify-between items-start", className)}>
       <H3>{header}</H3>
@@ -20,7 +21,9 @@ export default function AdminAreaSectionHeader({ header, buttonLabel, className 
           <Input placeholder='search...' />
           <Button size="icon" variant="ghost"><SearchIcon size={18} /></Button>
         </div>
-        <Button>
+        <Button
+          onClick={buttonHandler}
+        >
           <PlusIcon />
           <p>{buttonLabel}</p>
         </Button>

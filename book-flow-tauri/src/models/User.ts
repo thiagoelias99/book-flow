@@ -13,7 +13,7 @@ export class User {
     public readonly id: string,
     public readonly name: string,
     public readonly userName: string,
-    public readonly level: string
+    public readonly level: UserLevels
   ) { }
 
   static fromInvoke(data: UserInvokeResponse): User | null {
@@ -25,15 +25,29 @@ export class User {
       data.id,
       data.name,
       data.user_name,
-      data.level
+      data.level as UserLevels
     )
   }
+}
+
+export enum UserLevels {
+  // keys = values
+  admin = "Admin",
+  manager = "Manager",
+  student = "Student",
+  teacher = "Teacher",
+  guest = "Guest",
 }
 
 export const userCreateDtoSchema = z.object({
   name: z.string().min(3),
   userName: z.string().min(3),
-  level: z.string().min(3),
+  level: z.union([
+    z.string().refine((value) => Object.keys(UserLevels).includes(value), {
+      message: "Invalid user level"
+    }).transform((value) => value as UserLevels),
+    z.nativeEnum(UserLevels).transform((value) => value.toLowerCase() as UserLevels),
+  ]),
   password: z.string().min(6).max(20),
 })
 
