@@ -1,5 +1,5 @@
 use crate::{
-    domain::entities::user::User, infrastructure::repositories::user_repository::UserRepository, presentation::dto::user_register_dto::UserRegisterDto,
+    domain::entities::user::User, infrastructure::repositories::user_repository::UserRepository, presentation::dto::{updated_user_role_dto::UpdatedUserRoleDto, user_register_dto::UserRegisterDto},
 };
 use uuid::Uuid;
 
@@ -22,6 +22,10 @@ impl UserServices {
         self.user_repository.find_by_user_name(user_name)
     }
 
+    pub fn find_user_by_id(&self, id: &str) -> Result<User, String> {
+        self.user_repository.find_by_user_id(id)
+    }
+
     pub fn register_user(&self, user: UserRegisterDto) -> Result<User, String> {
         let id = Uuid::new_v4().to_string();
         let user = User {
@@ -32,5 +36,9 @@ impl UserServices {
             level: user.level,
         };
         self.user_repository.save(user)
+    }
+
+    pub fn set_user_level(&self, user: UpdatedUserRoleDto) -> Result<User, String> {
+        self.user_repository.set_level(user)
     }
 }

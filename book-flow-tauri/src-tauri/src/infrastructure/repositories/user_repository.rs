@@ -1,6 +1,6 @@
 use diesel::prelude::*;
 
-use crate::{domain::entities::user::User, infrastructure::db::connection::establish_connection};
+use crate::{domain::entities::user::User, infrastructure::db::connection::establish_connection, presentation::dto::updated_user_role_dto::UpdatedUserRoleDto};
 
 pub struct UserRepository {}
 
@@ -29,6 +29,21 @@ impl UserRepository {
             .expect("Error loading user")
     }
 
+    pub fn find_by_user_id(&self, id: &str) -> Result<User, String> {
+        let connection = &mut establish_connection();
+
+        let user = crate::schema::users::table
+            .filter(crate::schema::users::id.eq(id))
+            .first::<User>(connection)
+            .optional()
+            .expect("Error loading user");
+
+        match user {
+            Some(user) => Ok(user),
+            None => Err(String::from("User does not exist")),
+        }
+    }
+
     pub fn save(&self, user: User) -> Result<User, String> {
         let connection = &mut establish_connection();
 
@@ -39,5 +54,16 @@ impl UserRepository {
             .expect("Error saving user");
 
         Ok(new_user)
+    }
+
+    pub fn set_level(&self, user: UpdatedUserRoleDto) -> Result<User, String> {
+        let connection = &mut establish_connection();
+
+        let updated_user = diesel::update(crate::schema::users::table.find(&user.id))
+            .set(crate::schema::users::level.eq(user.level))
+            .get_result(connection)
+            .expect("Error updating user");
+
+        Ok(updated_user)
     }
 }

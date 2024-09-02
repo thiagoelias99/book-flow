@@ -20,5 +20,8 @@
   - [X] - Register user
     - [X] - Form
     - [X] - Use case
-  - [ ] - Update user role
+  - [X] - Update user role
+  - [ ] - Configure user permissions
+- [ ] - Logout
 - [ ] - Manage books
+- [ ] - User profile

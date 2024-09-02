@@ -10,7 +10,7 @@ pub mod schema;
 use application::use_cases;
 use domain::{entities::user::User, services};
 use infrastructure::repositories::user_repository;
-use presentation::dto::{login::LoginDto, user_register_dto::UserRegisterDto};
+use presentation::dto::{login::LoginDto, updated_user_role_dto::UpdatedUserRoleDto, user_register_dto::UserRegisterDto};
 
 #[tauri::command]
 fn get_all_users() -> Result<Vec<User>, String> {
@@ -37,6 +37,13 @@ fn register_user(user_register_dto: UserRegisterDto) -> Result<User, String> {
 }
 
 #[tauri::command]
+fn update_user_role(data: UpdatedUserRoleDto) -> Result<User, String> {
+    let user_repository = user_repository::UserRepository::new();
+    let user_services = services::user_services::UserServices::new(user_repository);
+    use_cases::update_user::update_user_role(data, &user_services)
+}
+
+#[tauri::command]
 fn login(data: LoginDto) -> Result<User, String> {
     let user_repository = user_repository::UserRepository::new();
     let user_services = services::user_services::UserServices::new(user_repository);
@@ -49,6 +56,7 @@ fn main() {
             get_all_users,
             get_user_by_user_name,
             register_user,
+            update_user_role,
             login
         ])
         .run(tauri::generate_context!())
