@@ -8,7 +8,7 @@ export default function Header() {
   const { storedValue, setValue } = useLocalStorage("current_user", null)
 
   return (
-    <header className='w-full px-4 py-2 flex flex-row justify-between items-center'>
+    <header className='w-full px-4 py-2 flex flex-row justify-between items-center bg-card'>
       <h1 className='text-2xl font-bold'>Book Flow</h1>
       <nav className='flex flex-row justify-center items-baseline gap-4'>
         <NavLink

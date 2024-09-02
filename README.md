@@ -10,9 +10,14 @@
   - [X] - DDD
   - [X] - Diesel setup
 - [X] - Register Admin
-- [ ] - Login
-  - [ ] - Form
-  - [ ] - Use case
-- [ ] - Management Area Layout
+- [X] - Login
+  - [X] - Form
+  - [X] - Use case
+- [X] - Management Area Layout
 - [ ] - Manage user
+  - [X] - Area Layout
+  - [ ] - Get data
+  - [ ] - Register user
+    - [ ] - Form
+    - [ ] - Use case
 - [ ] - Manage books

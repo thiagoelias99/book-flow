@@ -4,6 +4,7 @@ import Header from "./components/header"
 import Footer from "./components/footer"
 import LoginPage from "./pages/login"
 import LoggedArea from "./pages/logged-area"
+import ManageUsers from "./pages/manage-users"
 
 export default function Router() {
   return (
@@ -18,7 +19,7 @@ export default function Router() {
           <Route index element={<App />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="logged-area" element={<LoggedArea />}>
-            <Route path="users" element={<div>Users</div>} />
+            <Route path="users" element={<ManageUsers />} />
             <Route path="books" element={<div>Books</div>} />
           </Route>
           <Route path="*" element={<div>Pagina Não Encontrada</div>} />
