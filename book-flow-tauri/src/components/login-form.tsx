@@ -44,7 +44,7 @@ export default function LoginForm() {
         title: "Login successful",
         description: "You have successfully logged in",
       })
-      navigate("/logged-area/users")
+      navigate("/profile")
     } catch (error) {
       console.error(error)
       toast({

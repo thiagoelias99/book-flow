@@ -21,7 +21,7 @@
     - [X] - Form
     - [X] - Use case
   - [X] - Update user role
-  - [ ] - Configure user permissions
-- [ ] - Logout
+  - [X] - Configure user permissions
+- [X] - Logout
 - [ ] - Manage books
 - [ ] - User profile

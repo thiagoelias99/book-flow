@@ -2,40 +2,48 @@ import { cn } from "@/lib/utils"
 import { Link } from "react-router-dom"
 import { NavLink } from "react-router-dom"
 import { Button, buttonVariants } from "./ui/button"
-import { useLocalStorage } from "@/hooks/use-local-storage"
+import useUser from "@/hooks/use-user"
+import useUsers from "@/hooks/use-users"
+import { UserLevels } from "@/models/User"
 
 export default function Header() {
-  const { storedValue, setValue } = useLocalStorage("current_user", null)
+  const { user } = useUser(undefined)
+  const { logout } = useUsers()
 
   return (
     <header className='w-full px-4 py-2 flex flex-row justify-between items-center bg-card'>
       <h1 className='text-2xl font-bold'>Book Flow</h1>
       <nav className='flex flex-row justify-center items-baseline gap-4'>
-        <NavLink
-          to="/"
-          className={({ isActive }) => `${isActive ? "text-primary" : ""}`}
-        >
-          Home
-        </NavLink>
-
-        {storedValue && (
+        {!!user && (
           <>
             <NavLink
-              to="/logged-area"
+              to="/"
               className={({ isActive }) => `${isActive ? "text-primary" : ""}`}
             >
-              Logged Area
+              Home
             </NavLink>
+            <NavLink
+              to="/profile"
+              className={({ isActive }) => `${isActive ? "text-primary" : ""}`}
+            >
+              Profile
+            </NavLink>
+            {(user.level === UserLevels.admin.toLowerCase() || user.level === UserLevels.manager.toLowerCase()) && (
+              <NavLink
+                to="/logged-area/users"
+                className={({ isActive }) => `${isActive ? "text-primary" : ""}`}
+              >
+                Admin Area
+              </NavLink>
+            )}
           </>
-        )
-
-        }
+        )}
       </nav>
 
-      {storedValue ? (
+      {user ? (
         <Button
           variant="ghost"
-          onClick={() => setValue(null)}
+          onClick={() => logout()}
         >Logout
         </Button>
       ) : (
