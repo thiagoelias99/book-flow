@@ -1,3 +1,4 @@
+import { Book, BookCreateDto, BookInvokeResponse } from "@/models/Book"
 import { User, UserCreateDto, UserInvokeResponse, UserLevels } from "@/models/User"
 import { invoke } from "@tauri-apps/api"
 
@@ -34,4 +35,16 @@ export const loginUserInvoke = async (data: { userName: string, password: string
   const response = await invoke<UserInvokeResponse>("login", { data })
 
   return User.fromInvoke(response)
+}
+
+export const registerBookInvoke = async (data: BookCreateDto) => {
+  return await invoke("register_book", {
+    data
+  })
+}
+
+export const getAllBooksInvoke = async () => {
+  const response = await invoke<[BookInvokeResponse]>("get_all_books")
+
+  return response.map(Book.fromInvoke).filter(Boolean)
 }

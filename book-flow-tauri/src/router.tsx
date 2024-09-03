@@ -5,6 +5,7 @@ import Footer from "./components/footer"
 import LoginPage from "./pages/login"
 import LoggedArea from "./pages/logged-area"
 import ManageUsers from "./pages/manage-users"
+import ManageBooks from "./pages/manage-books"
 
 export default function Router() {
   return (
@@ -20,7 +21,7 @@ export default function Router() {
           <Route path="login" element={<LoginPage />} />
           <Route path="logged-area" element={<LoggedArea />}>
             <Route path="users" element={<ManageUsers />} />
-            <Route path="books" element={<div>Books</div>} />
+            <Route path="books" element={<ManageBooks />} />
           </Route>
           <Route path="*" element={<div>Pagina Não Encontrada</div>} />
         </Route>

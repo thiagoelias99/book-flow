@@ -30,7 +30,7 @@ export default function Header() {
             </NavLink>
             {(user.level === UserLevels.admin.toLowerCase() || user.level === UserLevels.manager.toLowerCase()) && (
               <NavLink
-                to="/logged-area/users"
+                to="/logged-area"
                 className={({ isActive }) => `${isActive ? "text-primary" : ""}`}
               >
                 Admin Area

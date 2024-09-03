@@ -14,7 +14,7 @@
   - [X] - Form
   - [X] - Use case
 - [X] - Management Area Layout
-- [ ] - Manage user
+- [X] - Manage user
   - [X] - Area Layout
   - [X] - Get data
   - [X] - Register user
@@ -24,4 +24,9 @@
   - [X] - Configure user permissions
 - [X] - Logout
 - [ ] - Manage books
+  - [X] - Schema
+  - [X] - Rust DDD
+  - [X] - Area layout
+  - [X] - Register book
+  - [ ] - List book
 - [ ] - User profile
