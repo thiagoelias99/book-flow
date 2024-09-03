@@ -31,3 +31,25 @@ model UserLevel {
 
   @@map("user_levels")
 }
+
+model Books {
+  id     String @id @default(cuid())
+  title  String
+  author String
+  isbn   String
+  status String
+
+  BookStatus BookStatus @relation(fields: [status], references: [slug], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([title, author])
+  @@map("books")
+}
+
+model BookStatus {
+  slug        String @id
+  description String
+
+  Books Books[]
+
+  @@map("book_status")
+}

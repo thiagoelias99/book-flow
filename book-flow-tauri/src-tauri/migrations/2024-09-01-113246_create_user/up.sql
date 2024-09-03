@@ -29,8 +29,3 @@ VALUES
     ('student', 'Student'),
     ('teacher', 'Teacher'),
     ('guest', 'Guest');
-
--- INSERT INTO
---     users (id, name, user_name, PASSWORD, LEVEL)
--- VALUES
---     ('1', 'Admin', 'admin', 'admin', 'admin');

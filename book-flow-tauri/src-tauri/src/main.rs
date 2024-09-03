@@ -57,7 +57,8 @@ fn main() {
             get_user_by_user_name,
             register_user,
             update_user_role,
-            login
+            login,
+            application::commands::register_book::register_book_from_dto
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
