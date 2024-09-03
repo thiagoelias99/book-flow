@@ -5,7 +5,7 @@
 - [X] - Vite setup
   - [X] - Styling libs
   - [X] - Router
-  - [ ] - Context
+  - [X] - Context (React Query)
 - [X] - Rust setup
   - [X] - DDD
   - [X] - Diesel setup

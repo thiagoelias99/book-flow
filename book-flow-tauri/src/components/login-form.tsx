@@ -14,11 +14,8 @@ import {
 import { Input } from "@/components/ui/input"
 import { PasswordInput } from "./ui/password-input"
 import { useToast } from "@/hooks/use-toast"
-import { useState } from "react"
-import { invoke } from "@tauri-apps/api"
 import { useNavigate } from "react-router-dom"
-import { useLocalStorage } from "@/hooks/use-local-storage"
-import { User, UserInvokeResponse } from "@/models/User"
+import useUsers from "@/hooks/use-users"
 
 const formSchema = z.object({
   userName: z.string().min(3),
@@ -26,10 +23,9 @@ const formSchema = z.object({
 })
 
 export default function LoginForm() {
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const { toast } = useToast()
   const navigate = useNavigate()
-  const { setValue } = useLocalStorage<User | null>("current_user", null)
+  const { login, isAwaitingForLogin } = useUsers()
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,16 +36,15 @@ export default function LoginForm() {
   })
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsSubmitting(true)
     try {
-      const user = User.fromInvoke(await invoke<UserInvokeResponse>("login", { data: values }))
+      await login(values)
+
       form.reset()
       toast({
         title: "Login successful",
         description: "You have successfully logged in",
       })
-      setValue(user)
-      navigate("/logged-area")
+      navigate("/logged-area/users")
     } catch (error) {
       console.error(error)
       toast({
@@ -57,8 +52,6 @@ export default function LoginForm() {
         description: "An error occurred while logging in",
         variant: "destructive"
       })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
@@ -94,7 +87,7 @@ export default function LoginForm() {
         <Button
           className='w-full'
           type="submit"
-          isLoading={isSubmitting}
+          isLoading={isAwaitingForLogin}
         >Submit</Button>
       </form>
     </Form>

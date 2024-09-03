@@ -15,59 +15,52 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form"
-import { userCreateDtoSchema } from "@/models/User"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { PasswordInput } from "./ui/password-input"
-import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { invoke } from "@tauri-apps/api"
 import { z } from "zod"
+import useAdmin from "@/hooks/use-admin"
 
 
-export default function AdminRegisterForm({ setAdminIsRegistered }: { setAdminIsRegistered: (value: boolean) => void }) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+export default function AdminRegisterForm() {
+  const { setAdmin, isSettingAdmin } = useAdmin()
   const { toast } = useToast()
 
-  type formSchema = typeof userCreateDtoSchema
+  const formSchema = z.object({
+    password: z.string().min(6).max(20)
+  })
 
-  const form = useForm<z.infer<formSchema>>({
-    resolver: zodResolver(userCreateDtoSchema),
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
     defaultValues: {
-      name: "admin",
-      userName: "admin",
-      level: "admin",
       password: "",
     },
   })
 
-  async function onSubmit(values: z.infer<formSchema>) {
-    setIsSubmitting(true)
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await invoke("register_user", { userRegisterDto: values })
+      await setAdmin({ password: values.password })
       form.reset()
       toast({
-        title: "Administrador registrado",
-        description: "O usuário administrador foi registrado com sucesso",
+        title: "Admin registered",
+        description: "Admin user has been registered",
       })
-      setAdminIsRegistered(true)
     } catch (error) {
       console.error(error)
       toast({
-        title: "Erro ao registrar administrador",
-        description: "Ocorreu um erro ao registrar o usuário administrador",
+        title: "Error registering admin",
+        description: "An error occurred while registering the admin",
         variant: "destructive"
       })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
   return (
     <Card className='w-full max-w-md'>
       <CardHeader>
-        <CardTitle>Bem vindo ao Book Flow</CardTitle>
-        <CardDescription>Vamos registrar o usuário administrador da aplicação</CardDescription>
+        <CardTitle>Welcome to Book Flow</CardTitle>
+        <CardDescription>Let`s register the application admin user!</CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
@@ -77,18 +70,22 @@ export default function AdminRegisterForm({ setAdminIsRegistered }: { setAdminIs
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Senha</FormLabel>
+                  <FormLabel>Password</FormLabel>
                   <FormControl>
                     <PasswordInput {...field} />
                   </FormControl>
                   <FormDescription>
-                    Esta senha precisa ser armazenada em segurança
+                    This password must be kept safe
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-            <Button className='w-full' type="submit" isLoading={isSubmitting} >Registrar</Button>
+            <Button
+              className='w-full'
+              type="submit"
+              isLoading={isSettingAdmin}
+            >Submit</Button>
           </form>
         </Form>
       </CardContent>

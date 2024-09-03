@@ -15,10 +15,9 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { User, UserInvokeResponse, UserLevels } from "@/models/User"
-import { invoke } from "@tauri-apps/api"
-import { useEffect, useState } from "react"
+import { UserLevels } from "@/models/User"
 import { ClassNameValue } from "tailwind-merge"
+import useUsers from "@/hooks/use-users"
 
 interface Props {
   userIsRegistered: boolean
@@ -27,21 +26,8 @@ interface Props {
 }
 
 export default function UsersTable({ className, userIsRegistered, setUserIsRegistered }: Props) {
-  const [isLoading, setIsLoading] = useState(true)
-  const [users, setUsers] = useState<User[]>([])
-
-  useEffect(() => {
-    try {
-      setIsLoading(true)
-      getUsers()
-    } catch (error) {
-      console.error(error)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [userIsRegistered])
-
-  const roleOptions = Object.keys(UserLevels).map((option, index) => {
+  const { users, isLoadingUsers: isLoading, updateRole } = useUsers()
+  const roleOptions = Object.keys(UserLevels).map((_option, index) => {
     return {
       label: Object.values(UserLevels)[index],
       value: Object.keys(UserLevels)[index]
@@ -49,22 +35,13 @@ export default function UsersTable({ className, userIsRegistered, setUserIsRegis
   })
 
   async function handleRoleChange(value: string, userId: string) {
-    const level = value as keyof typeof UserLevels
+    const level = value as UserLevels
 
     try {
-      await invoke("update_user_role", { data: { id: userId, level } })
-      await getUsers()
+      await updateRole({ id: userId, level })
     } catch (error) {
       console.error(error)
     }
-  }
-
-  async function getUsers() {
-    const response = await invoke<[UserInvokeResponse]>("get_all_users")
-
-    const users = response.map(User.fromInvoke).filter(Boolean).filter(user => user?.name !== "admin") as User[]
-
-    setUsers(users)
   }
 
   if (userIsRegistered) {
@@ -90,12 +67,12 @@ export default function UsersTable({ className, userIsRegistered, setUserIsRegis
         </TableBody>
       ) : (
         <TableBody>
-          {users.length === 0 && (
+          {users?.length === 0 && (
             <TableRow>
               <TableCell colSpan={3} className='text-center'>No users found</TableCell>
             </TableRow>
           )}
-          {users.map((user) => (
+          {users?.map((user) => (
             <TableRow key={user.id}>
               <TableCell>{user.name}</TableCell>
               <TableCell>{user.userName}</TableCell>

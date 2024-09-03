@@ -19,12 +19,11 @@ import { userCreateDtoSchema, UserLevels } from "@/models/User"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { PasswordInput } from "./ui/password-input"
-import { useState } from "react"
 import { useToast } from "@/hooks/use-toast"
-import { invoke } from "@tauri-apps/api"
 import { z } from "zod"
 import { Input } from "./ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "./ui/select"
+import useUsers from "@/hooks/use-users"
 
 interface Props {
   setUserIsRegistered: (value: boolean) => void
@@ -33,7 +32,8 @@ interface Props {
 }
 
 export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChange }: Props) {
-  const [isSubmitting, setIsSubmitting] = useState(false)
+  // const [isSubmitting, setIsSubmitting] = useState(false)
+  const { registerUser, isRegisteringUser } = useUsers()
   const { toast } = useToast()
 
   type formSchema = typeof userCreateDtoSchema
@@ -49,9 +49,10 @@ export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChan
   })
 
   async function onSubmit(values: z.infer<formSchema>) {
-    setIsSubmitting(true)
     try {
-      await invoke("register_user", { userRegisterDto: values })
+
+      await registerUser(values)
+
       form.reset()
       toast({
         title: "User registered",
@@ -66,13 +67,11 @@ export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChan
         description: "An error occurred while registering the user",
         variant: "destructive"
       })
-    } finally {
-      setIsSubmitting(false)
     }
   }
 
   // Extrair para options
-  const roleOptions = Object.keys(UserLevels).map((option, index) => {
+  const roleOptions = Object.keys(UserLevels).map((_option, index) => {
     return {
       label: Object.values(UserLevels)[index],
       value: Object.keys(UserLevels)[index]
@@ -159,7 +158,7 @@ export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChan
                 </FormItem>
               )}
             />
-            <Button className='w-full' type="submit" isLoading={isSubmitting} >Registrar</Button>
+            <Button className='w-full' type="submit" isLoading={isRegisteringUser} >Registrar</Button>
           </form>
         </Form>
       </DialogContent>
