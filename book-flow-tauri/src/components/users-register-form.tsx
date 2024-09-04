@@ -26,13 +26,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from ".
 import useUsers from "@/hooks/use-users"
 
 interface Props {
-  setUserIsRegistered: (value: boolean) => void
   open: boolean
   onOpenChange: (value: boolean) => void
 }
 
-export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChange }: Props) {
-  // const [isSubmitting, setIsSubmitting] = useState(false)
+export default function UserRegisterForm({ open, onOpenChange }: Props) {
   const { registerUser, isRegisteringUser } = useUsers()
   const { toast } = useToast()
 
@@ -59,7 +57,6 @@ export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChan
         description: "The user has been registered successfully",
       })
       onOpenChange(false)
-      setUserIsRegistered(true)
     } catch (error) {
       console.error(error)
       toast({
@@ -70,7 +67,6 @@ export default function UserRegisterForm({ setUserIsRegistered, open, onOpenChan
     }
   }
 
-  // Extrair para options
   const roleOptions = Object.keys(UserLevels).map((_option, index) => {
     return {
       label: Object.values(UserLevels)[index],

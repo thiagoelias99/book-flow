@@ -15,39 +15,23 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { cn } from "@/lib/utils"
-import { UserLevels } from "@/models/User"
+import { User, UserLevels } from "@/models/User"
 import { ClassNameValue } from "tailwind-merge"
-import useUsers from "@/hooks/use-users"
 
 interface Props {
-  userIsRegistered: boolean
-  setUserIsRegistered: (value: boolean) => void
+  users: User[] | undefined
+  isLoadingUsers: boolean
+  handleRoleChange: (value: string, userId: string) => void
   className?: ClassNameValue
 }
 
-export default function UsersTable({ className, userIsRegistered, setUserIsRegistered }: Props) {
-  const { users, isLoadingUsers: isLoading, updateRole } = useUsers()
+export default function UsersTable({ className, users, isLoadingUsers: isLoading, handleRoleChange }: Props) {  
   const roleOptions = Object.keys(UserLevels).map((_option, index) => {
     return {
       label: Object.values(UserLevels)[index],
       value: Object.keys(UserLevels)[index]
     }
   })
-
-  async function handleRoleChange(value: string, userId: string) {
-    const level = value as UserLevels
-
-    try {
-      await updateRole({ id: userId, level })
-    } catch (error) {
-      console.error(error)
-    }
-  }
-
-  if (userIsRegistered) {
-    setUserIsRegistered(false)
-  }
-
 
   return (
     <Table className={cn("bg-card rounded-lg", className)}>

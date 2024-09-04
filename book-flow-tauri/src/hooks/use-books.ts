@@ -22,7 +22,8 @@ const useBooks = () => {
 
   const setFilters = (filter: string) => {
     const books = queryClient.getQueryData<Book[]>(["books"])
-    const filteredBooks = books?.filter((book) => book.title.includes(filter) || book.author.includes(filter))
+    const normalizedFilter = filter.toLowerCase()
+    const filteredBooks = books?.filter((book) => book.title.toLowerCase().includes(normalizedFilter) || book.author.toLowerCase().includes(normalizedFilter))
     setFilteredBook(filteredBooks || [])
   }
 

@@ -15,7 +15,7 @@
   - [X] - Form
   - [X] - Use case
 - [X] - Management Area Layout
-- [ ] - Manage user
+- [X] - Manage user
   - [X] - Area Layout
   - [X] - Get data
   - [X] - Register user
@@ -23,7 +23,7 @@
     - [X] - Use case
   - [X] - Update user role
   - [X] - Configure user permissions
-  - [ ] - Search users
+  - [X] - Search users
 - [X] - Logout
   - [ ] - Disable save session
 - [ ] - Manage books
@@ -32,7 +32,7 @@
   - [X] - Area layout
   - [X] - Register book
   - [X] - List book
-  - [ ] - Search books
+  - [X] - Search books
   - [ ] - Borrow a book
   - [ ] - Reserve a book
   - [ ] - Return a book

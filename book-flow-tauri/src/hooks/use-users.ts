@@ -1,11 +1,13 @@
 import { getAllUsersInvoke, loginUserInvoke, registerUserInvoke, updateUserRoleInvoke } from "@/invokes"
-import { UserCreateDto, UserLevels } from "@/models/User"
+import { User, UserCreateDto, UserLevels } from "@/models/User"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { useLocalStorage } from "./use-local-storage"
 import { useNavigate } from "react-router-dom"
+import { useState } from "react"
 
 const useUsers = () => {
   const queryClient = useQueryClient()
+  const [filteredUsers, setFilteredUsers] = useState<User[]>([])
   const navigate = useNavigate()
   const { setValue: setUserName } = useLocalStorage<string | null>("current_user", null)
 
@@ -54,7 +56,14 @@ const useUsers = () => {
     }
   })
 
-  return { users, isLoadingUsers, updateRole, isUpdatingRole, login, logout, isAwaitingForLogin, loginError, registerUser, isRegisteringUser }
+  const setFilters = (filter: string) => {
+    const users = queryClient.getQueryData<User[]>(["users"])
+    const normalizedFilter = filter.toLowerCase()
+    const filteredUsers = users?.filter((user) => user.name.toLowerCase().includes(normalizedFilter) || user.userName.toLowerCase().includes(normalizedFilter))
+    setFilteredUsers(filteredUsers || [])
+  }
+
+  return { users, isLoadingUsers, updateRole, isUpdatingRole, login, logout, isAwaitingForLogin, loginError, registerUser, isRegisteringUser, filteredUsers, setFilters }
 }
 
 export default useUsers
