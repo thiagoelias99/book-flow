@@ -1,9 +1,11 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
-import { BookCreateDto } from "@/models/Book"
+import { Book, BookCreateDto } from "@/models/Book"
 import { getAllBooksInvoke, registerBookInvoke } from "@/invokes"
+import { useState } from "react"
 
 const useBooks = () => {
   const queryClient = useQueryClient()
+  const [filteredBooks, setFilteredBook] = useState<Book[]>([])
 
   const { data: books, isFetching: isLoadingBooks } = useQuery({
     queryKey: ["books"],
@@ -18,7 +20,13 @@ const useBooks = () => {
     }
   })
 
-  return { registerBook, isRegisteringBook, books, isLoadingBooks }
+  const setFilters = (filter: string) => {
+    const books = queryClient.getQueryData<Book[]>(["books"])
+    const filteredBooks = books?.filter((book) => book.title.includes(filter) || book.author.includes(filter))
+    setFilteredBook(filteredBooks || [])
+  }
+
+  return { registerBook, isRegisteringBook, books, isLoadingBooks, filteredBooks, setFilters }
 }
 
 export default useBooks

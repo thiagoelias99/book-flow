@@ -45,7 +45,5 @@ export const registerBookInvoke = async (data: BookCreateDto) => {
 
 export const getAllBooksInvoke = async () => {
   const response = await invoke<[BookInvokeResponse]>("get_all_books")
-  console.log(response)
-
   return response.map(Book.fromInvoke).filter(Boolean)
 }

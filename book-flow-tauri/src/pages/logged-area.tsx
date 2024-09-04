@@ -4,8 +4,6 @@ import { Link, Outlet, useLocation } from "react-router-dom"
 export default function LoggedArea() {
   const route = useLocation().pathname
 
-  console.log(route)
-
   return (
     <main className='w-full h-full p-4'>
       <H2>Logged Area</H2>
