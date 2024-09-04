@@ -6,15 +6,16 @@
   - [X] - Styling libs
   - [X] - Router
   - [X] - Context (React Query)
-- [X] - Rust setup
+- [ ] - Rust setup
   - [X] - DDD
   - [X] - Diesel setup
+  - [ ] - Refactor Rust
 - [X] - Register Admin
 - [X] - Login
   - [X] - Form
   - [X] - Use case
 - [X] - Management Area Layout
-- [X] - Manage user
+- [ ] - Manage user
   - [X] - Area Layout
   - [X] - Get data
   - [X] - Register user
@@ -22,11 +23,17 @@
     - [X] - Use case
   - [X] - Update user role
   - [X] - Configure user permissions
+  - [ ] - Search users
 - [X] - Logout
+  - [ ] - Disable save session
 - [ ] - Manage books
   - [X] - Schema
   - [X] - Rust DDD
   - [X] - Area layout
   - [X] - Register book
-  - [ ] - List book
+  - [X] - List book
+  - [ ] - Search books
+  - [ ] - Borrow a book
+  - [ ] - Reserve a book
+  - [ ] - Return a book
 - [ ] - User profile

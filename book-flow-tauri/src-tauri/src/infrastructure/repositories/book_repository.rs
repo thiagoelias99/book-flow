@@ -20,4 +20,14 @@ impl BookRepository {
 
         Ok(book)
     }
+
+    pub fn get_all(&self) -> Result<Vec<Book>, String> {
+        let connection = &mut establish_connection();
+
+        let books = crate::schema::books::dsl::books
+            .load::<Book>(connection)
+            .expect("Error loading books");
+
+        Ok(books)
+    }
 }

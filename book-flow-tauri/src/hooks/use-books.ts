@@ -5,10 +5,10 @@ import { getAllBooksInvoke, registerBookInvoke } from "@/invokes"
 const useBooks = () => {
   const queryClient = useQueryClient()
 
-  // const { data: books, isFetching: isLoadingBooks } = useQuery({
-  //   queryKey: ["books"],
-  //   queryFn: getAllBooksInvoke
-  // })
+  const { data: books, isFetching: isLoadingBooks } = useQuery({
+    queryKey: ["books"],
+    queryFn: getAllBooksInvoke
+  })
 
   const { mutateAsync: registerBook, isPending: isRegisteringBook } = useMutation({
     mutationKey: ["register_book"],
@@ -18,7 +18,7 @@ const useBooks = () => {
     }
   })
 
-  return { registerBook, isRegisteringBook }
+  return { registerBook, isRegisteringBook, books, isLoadingBooks }
 }
 
 export default useBooks

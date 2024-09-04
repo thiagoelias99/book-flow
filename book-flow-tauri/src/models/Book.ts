@@ -23,12 +23,14 @@ export class Book {
       return null
     }
 
+    const status = getEnumValueByKey(BookStatus, data.status as keyof typeof BookStatus)
+
     return new Book(
       data.id,
       data.title,
       data.author,
       data.isbn,
-      getEnumValueByKey(BookStatus, data.status as keyof typeof BookStatus)
+      status
     )
   }
 }

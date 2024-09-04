@@ -26,4 +26,8 @@ impl BookServices {
 
         self.book_repository.save(book)
     }
+
+    pub fn get_all(&self) -> Result<Vec<Book>, String> {
+        self.book_repository.get_all()
+    }
 }
