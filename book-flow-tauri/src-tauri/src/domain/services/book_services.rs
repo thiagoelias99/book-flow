@@ -30,4 +30,8 @@ impl BookServices {
     pub fn get_all(&self) -> Result<Vec<Book>, String> {
         self.book_repository.get_all()
     }
+
+    pub fn set_book_status(&self, id: &String, status: &str) -> Result<Book, String> {
+        self.book_repository.set_status(id, status)
+    }
 }

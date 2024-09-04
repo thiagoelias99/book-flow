@@ -1,4 +1,4 @@
-use diesel::{RunQueryDsl, Table};
+use diesel::{ExpressionMethods, QueryDsl, RunQueryDsl, Table};
 
 use crate::{domain::entities::book::Book, infrastructure::db::connection::establish_connection};
 
@@ -29,5 +29,16 @@ impl BookRepository {
             .expect("Error loading books");
 
         Ok(books)
+    }
+
+    pub fn set_status(&self, id: &String, status: &str) -> Result<Book, String> {
+        let connection = &mut establish_connection();
+
+        let book = diesel::update(crate::schema::books::dsl::books.find(id))
+            .set(crate::schema::books::dsl::status.eq(status))
+            .get_result(connection)
+            .expect("Error updating book");
+
+        Ok(book)
     }
 }

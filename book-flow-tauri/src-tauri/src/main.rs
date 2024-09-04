@@ -60,6 +60,7 @@ fn main() {
             login,
             application::commands::register_book::register_book,
             application::commands::get_book::get_all_books,
+            application::commands::register_loan::register_loan,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

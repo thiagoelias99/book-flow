@@ -34,6 +34,12 @@
   - [X] - List book
   - [X] - Search books
   - [ ] - Borrow a book
-  - [ ] - Reserve a book
+   - [X] - Use case
+   - [ ] - Form
   - [ ] - Return a book
+   - [ ] - Use case
+   - [ ] - Form
+  - [ ] - Reserve a book
+   - [ ] - Use case
+   - [ ] - Form
 - [ ] - User profile
