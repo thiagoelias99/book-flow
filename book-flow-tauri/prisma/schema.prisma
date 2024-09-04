@@ -18,6 +18,7 @@ model User {
   level    String
 
   UserLevel UserLevel @relation(fields: [level], references: [slug], onDelete: NoAction, onUpdate: NoAction)
+  Loan      Loan[]
 
   @@index([userName], name: "user_name")
   @@map("users")
@@ -40,6 +41,7 @@ model Books {
   status String
 
   BookStatus BookStatus @relation(fields: [status], references: [slug], onDelete: NoAction, onUpdate: NoAction)
+  Loan       Loan[]
 
   @@index([title, author])
   @@map("books")
@@ -52,4 +54,29 @@ model BookStatus {
   Books Books[]
 
   @@map("book_status")
+}
+
+model Loan {
+  id         String   @id @default(cuid())
+  bookId     String   @map("book_id")
+  userId     String   @map("user_id")
+  loanDate   DateTime @map("loan_date")
+  returnDate DateTime @map("return_date")
+  status     String
+
+  User       User       @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  Books      Books      @relation(fields: [bookId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  LoanStatus LoanStatus @relation(fields: [status], references: [slug], onDelete: NoAction, onUpdate: NoAction)
+
+  @@index([bookId, userId])
+  @@map("loans")
+}
+
+model LoanStatus {
+  slug        String @id
+  description String
+
+  Loan Loan[]
+
+  @@map("loan_status")
 }
